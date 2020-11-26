@@ -1,0 +1,42 @@
+<div class="container-fluid">
+
+  <div class="display-4 m-4">Product Search Result</div>
+
+  <form class="form-inline m-4 my-lg-0" [formGroup]="searchForm1" (ngSubmit)="filterSearch1()">
+    <input class="form-control col-4 mr-sm-2" formControlName="searchText" type="search" placeholder="Search"
+      aria-label="Search" autocomplete="off">
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+  </form>
+
+  <div class="dropdown-divider my-4"></div>
+
+  <div class="row row-cols-1 row-cols-md-5 m-4">
+
+    <!-- Filtered Result Card -->
+    <div class="col mb-4" *ngFor="let data of filteredData">
+      <div class="card h-100 text-center">
+        <img [src]="data.imagePath" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">{{ data.productName }}</h5>
+          <p class="card-text">
+            {{ data.price | currency: 'INR' }}
+          </p>
+        </div>
+        <div class="card-footer">
+          <button type="button" class="btn btn-outline-primary btn-block" [routerLink]="['/product/product-details', data.id]">View Details</button>
+          <button type="button" class="btn btn-outline-primary btn-block" (click)="addToCart(data)">Add To Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div *ngIf="filteredData.length < 1">
+      <p class="text-center">
+        No products found
+      </p>
+    </div> -->
+
+  </div>
+
+  <div class="dropdown-divider my-4"></div>
+
+</div>

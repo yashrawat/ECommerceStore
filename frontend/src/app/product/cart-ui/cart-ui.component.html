@@ -1,0 +1,92 @@
+<!-- cart empty -->
+<div class="container my-4 text-center" *ngIf="itemsUI.length < 1">
+
+  <div class="alert alert-primary" role="alert">
+    No products added to cart
+  </div>
+
+</div>
+
+<!-- Cart not empty -->
+<div class="table-responsive container-fluid m-4" *ngIf="itemsUI.length > 0">
+
+  <div class="display-4 mb-4">Cart</div>
+
+  <table class="table table-hover">
+
+    <thead>
+      <tr>
+        <th scope="col" class="h4">Image</th>
+        <th scope="col" class="h4">Product Content</th>
+        <th scope="col" class="h4">Price</th>
+        <th scope="col" class="h4">Quantity</th>
+        <th scope="col" class="h4">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let item of itemsUI">
+
+        <td>
+          <img [src]="item.imagePath">
+        </td>
+
+        <td>{{ item.productName }}</td>
+
+        <td>{{ item.price | currency: 'INR' : symbol: '3.0' }}</td>
+
+        <td>
+          {{ item.quantity }}
+          <button type="button" class="btn" (click)="incrementQuantityButton(item._id)">
+            <span class="material-icons">
+              add
+            </span>
+          </button>
+
+          <button type="button" class="btn" (click)="decrementQuantityButton(item._id)">
+            <span class="material-icons">
+              remove
+            </span>
+          </button>
+        </td>
+
+        <td>
+          <button type="button" class="btn" (click)="deleteCartItem(item._id)">
+            <span class="material-icons">
+              delete
+            </span>
+          </button>
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+<div class="dropdown-divider mb-4" *ngIf="itemsUI.length > 0"></div>
+
+<div class="container mt-4 text-center" *ngIf="itemsUI.length > 0">
+
+  <div class="col-4">
+
+    <p class="h4">
+      <strong>Grand Total</strong>
+    </p>
+
+    <br>
+
+    <p>{{ calculateTotalPrice() | currency: 'INR' : symbol: '0.0' }}</p>
+
+    <br>
+
+    <button class="btn btn-primary btn-block my-4" type="submit" (click)="onCheckout()">Proceed To Checkout</button>
+
+  </div>
+
+</div>
+
+<div class="dropdown-divider my-4"></div>

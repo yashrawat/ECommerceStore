@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+  <a class="navbar-brand" routerLink="/homepage">E Commerce Store</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item" *ngIf="!userIsAuthenticated">
+        <a class="nav-link" routerLink="/auth/login" routerLinkActive="active">Login</a>
+      </li>
+
+      <li class="nav-item" *ngIf="!userIsAuthenticated">
+        <a class="nav-link" routerLink="/auth/signup" routerLinkActive="active">Signup</a>
+      </li>
+
+      <li class="nav-item" *ngIf="userIsAuthenticated">
+        <a class="nav-link" routerLink="/product/products-list" routerLinkActive="active">Products List</a>
+      </li>
+
+      <li class="nav-item" *ngIf="userIsAuthenticated">
+        <a class="nav-link" routerLink="/product/cart-ui" routerLinkActive="active">Cart</a>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false"></a>
+
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLink="/user/account-info" routerLinkActive="active"
+            *ngIf="userIsAuthenticated">Account Info</a>
+          <div class="dropdown-divider" *ngIf="userIsAuthenticated"></div>
+          <a class="dropdown-item" routerLink="/user/order-history" routerLinkActive="active"
+            *ngIf="userIsAuthenticated">Order History</a>
+          <div class="dropdown-divider" *ngIf="userIsAuthenticated"></div>
+          <a class="dropdown-item" routerLink="/user/wishlist" routerLinkActive="active"
+            *ngIf="userIsAuthenticated">Wishlist</a>
+          <div class="dropdown-divider" *ngIf="userIsAuthenticated"></div>
+          <a class="dropdown-item" routerLink="/contact-us" routerLinkActive="active">Contact Us</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="/faqs" routerLinkActive="active">FAQs</a>
+        </div>
+      </li>
+
+      <li class="nav-item" *ngIf="userIsAuthenticated">
+        <button class="nav-link btn" type="button" (click)="onLogout()">Logout</button>
+      </li>
+    </ul>
+
+  </div>
+</nav>

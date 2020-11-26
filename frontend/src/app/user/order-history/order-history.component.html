@@ -1,0 +1,45 @@
+<div class="container">
+
+  <div class="row">
+
+    <div class="col">
+
+      <div class="display-4 my-4">Order History</div>
+
+      <div class="dropdown-divider my-4"></div>
+
+      <!-- Order Item (iterate orders here) -->
+      <div class="card mb-4" *ngFor="let order of orders">
+        <div class="card-body">
+
+          <div class="row">
+
+            <div class="col">
+              <img [src]="order.product.imagePath">
+            </div>
+
+            <div class="col">
+              <div>{{ order.product.productName }}</div>
+            </div>
+
+            <div class="col">{{ order.product.price | currency: 'INR' : symbol: '0.0' }}</div>
+
+            <div class="col-4">
+              <div>{{ order.orderDate | date }}</div>
+              <div>{{ order.deliveryAddress }}</div>
+              <div>{{ order.paymentMethod }}</div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="dropdown-divider my-4"></div>
+
+    </div>
+
+  </div>
+
+</div>
+

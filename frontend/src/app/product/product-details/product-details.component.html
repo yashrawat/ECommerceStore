@@ -1,0 +1,46 @@
+<div class="container">
+
+  <div class="display-4 mt-4">Product Details</div>
+
+  <div class="dropdown-divider my-4"></div>
+
+  <div class="row m-4">
+    <div class="col mb-4">
+      <div class="card h-100 text-center">
+        <img [src]="productData.imagePath" class="card-img-top img-fluid">
+        <div class="card-body">
+          <h5 class="card-title">{{ productData.productName }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dropdown-divider my-4"></div>
+
+  <div class="m-4">
+    <p class="m-4 col">{{ productData.price | currency: 'INR' : 'symbol' : '0.0' }}</p>
+    <p class="m-4 col">
+      <button type="button" class="btn" (click)="wishlistButtonClick()">
+        <span class="material-icons" *ngIf="!wishlistButton">favorite_border</span>
+        <span class="material-icons" *ngIf="wishlistButton">favorite</span>
+      </button>
+    </p>
+  </div>
+
+  <div class="row col-4 m-4">
+    <button type="button" class="btn btn-outline-primary btn-block" (click)="addToCart(productData)">Add To Cart</button>
+  </div>
+
+  <div class="dropdown-divider my-4"></div>
+
+  <div class="row m-4">
+    <div class="card col m-4">
+      <div class="card-body">
+        {{ productData.productContent }}
+      </div>
+    </div>
+  </div>
+
+  <div class="dropdown-divider my-4"></div>
+
+</div>
