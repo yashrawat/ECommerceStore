@@ -44,17 +44,18 @@ exports.getProductById = (req, res, next) => {
         });
 };
 
-// ---------
-// Option 1
-// ---------
 // exports.addProduct = (req, res, next) => {};
-// exports.deleteProduct = (req, res, next) => {};
 
-// ---------
-// Option 2
-// ---------
-// exports.addProductToCartById = (req, res, next) => {};
-// exports.deleteProductFromCartById = (req, res, next) => {};
-
-// exports.addProductToWishlistById = (req, res, next) => {};
-// exports.deleteProductFromWishlistById = (req, res, next) => {};
+exports.deleteProductById = (req, res, next) => {
+    Product.findByIdAndRemove({ _id: req.params.id }, (error, loadedProduct) => {
+        if (error) {
+            res.status(500).json({
+                message: `Product could not be deleted from PRODUCT Catalog => ${error}`
+            });
+        } else {
+            res.status(200).json({
+                message: `Product deleted from PRODUCT Catalog successfully => ${loadedProduct}`
+            });
+        }
+    });
+};

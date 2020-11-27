@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
@@ -162,7 +163,7 @@ export class UserService {
     }
   ];
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private http: HttpClient) { }
 
   getOrders(): any {
     return this.dummyOrders;

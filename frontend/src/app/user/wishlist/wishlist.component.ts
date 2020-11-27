@@ -17,7 +17,7 @@ export class WishlistComponent implements OnInit {
 
   addItemToCart(product): any {
     this.cartService.addToCart(product);
-    // TODO: add snackbar that item added to cart
+    // this.removeItemFromWishlist(product.id);
     this.router.navigate(['/product/cart-ui']);
   }
 

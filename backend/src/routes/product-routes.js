@@ -10,6 +10,6 @@ router.get('/productById/:id', productControllers.getProductById);
 
 // router.post('/addProductToCart/:id', productControllers.addProductToCart);
 
-// router.post('/deleteProductFromCart/:id', productControllers.deleteProductFromCart);
+router.delete('/deleteProduct/:id', productControllers.deleteProductById);
 
 module.exports = router;

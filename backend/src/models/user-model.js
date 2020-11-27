@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
-    email: {
-        type: String,
+    authId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Auth',
         required: true
     },
     cart: {
-        items: [
+        itemsList: [
             {
                 productId: {
                     type: mongoose.Schema.Types.ObjectId,
@@ -19,29 +20,41 @@ const userSchema = mongoose.Schema({
                 }
             }
         ]
+    },
+    wishlist: {
+        productsList: [
+            {
+                productId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Product',
+                    required: true
+                }
+            }
+        ]
+    },
+    order: {
+        ordersList: [
+            {
+                productId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Product',
+                    required: true
+                },
+                orderDate: {
+                    type: Date,
+                    required: true
+                },
+                deliveryAddress: {
+                    type: String,
+                    required: true
+                },
+                paymentMethod: {
+                    type: String,
+                    required: true
+                }
+            }
+        ]
     }
-    // ,
-    // wislist: {
-    //     productId: {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: 'Product',
-    //         required: true
-    //     }
-    // },
-    // order: {
-    //     orderDate: {
-    //         type: Number,
-    //         required: true
-    //     },
-    //     deliveryAddress: {
-    //         type: String,
-    //         required: true
-    //     },
-    //     paymentMethod: {
-    //         type: String,
-    //         required: true
-    //     }
-    // }
 });
 
 module.exports = mongoose.model('User', userSchema);
