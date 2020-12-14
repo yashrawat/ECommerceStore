@@ -38,6 +38,8 @@ export class CartUIComponent implements OnInit {
 
   onCheckout(): any {
     // TODO: write before checkout code
+    // console.log(itemsUI);
+    // this.cartService.onCheckout(itemsUI);
     this.router.navigate(['/product/checkout']);
   }
 

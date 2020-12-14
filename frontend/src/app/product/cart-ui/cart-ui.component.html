@@ -1,5 +1,5 @@
 <!-- cart empty -->
-<div class="container my-4 text-center" *ngIf="itemsUI.length < 1">
+<div class="container my-4 text-center" *ngIf="itemsUI?.length < 1">
 
   <div class="alert alert-primary" role="alert">
     No products added to cart
@@ -8,7 +8,7 @@
 </div>
 
 <!-- Cart not empty -->
-<div class="table-responsive container-fluid m-4" *ngIf="itemsUI.length > 0">
+<div class="table-responsive container-fluid m-4" *ngIf="itemsUI?.length > 0">
 
   <div class="display-4 mb-4">Cart</div>
 

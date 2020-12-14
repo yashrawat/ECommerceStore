@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from 'src/app/utils/user.service';
+import { Subscription } from 'rxjs';
 
+import { UserService } from 'src/app/utils/user.service';
 import { CartService } from '../../utils/cart.service';
 import { ProductService } from '../../utils/product.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-details',
@@ -32,32 +32,30 @@ export class ProductDetailsComponent implements OnInit {
   wishlistButtonClick(): any {
     if (!this.wishlistButton) {
       console.log('Added to wishlist');
-      this.addItemToWishlist();
+      // this.addItemToWishlist();
     } else {
       console.log('Removed from wishlist');
       // Error in line 40, (TypeError: Cannot read property 'id' of undefined)
-      this.removeItemFromWishlist();
+      // this.removeItemFromWishlist();
     }
     return this.wishlistButton = !this.wishlistButton;
   }
 
-  addItemToWishlist(): any {
-    this.userService.addItemToWishlist(this.productId);
-  }
+  // addItemToWishlist(): any {
+  //   this.userService.addItemToWishlist(this.productId);
+  // }
 
-  removeItemFromWishlist(): any {
-    this.userService.removeItemFromWishlist(this.productId);
-  }
+  // removeItemFromWishlist(): any {
+  //   this.userService.removeItemFromWishlist(this.productId);
+  // }
 
   ngOnInit(): void {
     this.productId = this.route.snapshot.params.id;
     this.productDataSubs = this.productService.getProductDataUpdated()
       .subscribe(productStatus => {
         this.productData = productStatus.products;
-        // console.log(this.productData);
       });
     this.productData = this.productService.getProductById(this.productId);
-    // console.log(this.productData);
   }
 
 }

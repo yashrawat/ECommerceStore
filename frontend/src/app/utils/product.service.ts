@@ -14,27 +14,32 @@ const BACKEND_URL = `${environment.apiUrl}/product`;
 export class ProductService {
 
   filteredData = [];
-
   private productData: Product[] = [];
   private productDataUpdated = new Subject<{ products: Product[] }>();
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  // Works
+  getProductDataUpdated(): any {
+    return this.productDataUpdated.asObservable();
+  }
+
+  // Works
+  // searching through products list
   filterSearchResults(searchTextResult): any {
     this.filteredData = [];
     const searchTextValue = searchTextResult;
     this.productData.forEach(products => {
-      if (products.productName.toLowerCase().includes(searchTextValue)) {
-        this.filteredData.push(products);
-        // console.log(products);
+        if (products.productName.toLowerCase().includes(searchTextValue.toLowerCase())) {
+          this.filteredData.push(products);
+        }
       }
-    });
-    // console.log(this.filteredData);
+    );
     this.router.navigate(['/product/product-search-result']);
-    // return this.filteredData;
   }
 
-  // code connected with backend
+  // Works
+  // Get all products
   getProductData(): any {
     this.http.get<{ message: string; products: Product[]; }>(`${BACKEND_URL}/allProducts`)
       .subscribe((fetchedProductsData) => {
@@ -43,10 +48,8 @@ export class ProductService {
       });
   }
 
-  getProductDataUpdated(): any {
-    return this.productDataUpdated.asObservable();
-  }
-
+  // Works
+  // Get One Product By ID
   getProductById(productId): any {
     this.http.get<{ message: string; products: Product[]; }>(`${BACKEND_URL}/productById/${productId}`)
       .subscribe((fetchedProductData) => {

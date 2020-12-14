@@ -13,7 +13,7 @@ exports.addUserData = (req, res, next) => {
         .then(cartItem => {
             res.status(201).json({
                 message: `Item successfully added to CART`,
-                items: cartItem
+                userData: cartItem
             });
         })
         .catch(error => {
@@ -30,7 +30,7 @@ exports.getUserData = (req, res, next) => {
             if (fetchedItems) {
                 res.status(200).json({
                     message: `All items fetched successfully from CART`,
-                    items: fetchedItems
+                    userData: fetchedItems
                 });
             } else {
                 res.status(404).json({

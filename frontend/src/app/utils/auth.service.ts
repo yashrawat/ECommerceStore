@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
@@ -17,8 +18,71 @@ export class AuthService {
   private tokenTimer: any;
   private isAuthenicated = false;
   private userId: string;
+  private userData;
+  private userDataUpdated = new Subject();
+  private paymentMethodValue;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private snackbar: MatSnackBar) { }
+
+  openSnackbar(message, action): any {
+    this.snackbar.open(message, action, {
+      duration: 2000,
+    });
+  }
+
+  // *********************************
+  // saving & getter user data feature
+  // *********************************
+
+  getUserData(): any {
+    return this.userData;
+  }
+
+  getUserDataUpdated(): any {
+    return this.userDataUpdated.asObservable();
+  }
+
+  getpaymentMethodValue(): any {
+    return this.paymentMethodValue;
+  }
+
+  // works
+  // get userData by ID => name, email, mobile number and address
+  getUserById(userId): any {
+    this.http.get<{ message: string; userData; }>(`${BACKEND_URL}/getUserData/${userId}`)
+      .subscribe(fetchedUserData => {
+        this.userData = fetchedUserData.userData;
+        this.userDataUpdated.next({ ...this.userData });
+      });
+  }
+
+  // works
+  // save userData by ID => name, email, mobile number and address
+  saveUserData(userId, name, email, mobileNumber, address): any {
+    let userDataFromAccountInfo;
+    userDataFromAccountInfo = {
+      name,
+      email,
+      mobileNumber,
+      address
+    };
+    this.http.put<{ message: string; userData; }>(`${BACKEND_URL}/saveUserData/${userId}`, userDataFromAccountInfo)
+      .subscribe(responseData => {
+        this.userData = responseData.userData;
+        this.userDataUpdated.next({ ...this.userData });
+        this.openSnackbar('User Information Updated', 'Updated');
+      });
+  }
+
+  // pass payment method's value
+  confirmOrder(paymentMethod): any {
+    this.paymentMethodValue = paymentMethod;
+    // TODO: add ordered items in order-history component
+  }
+
+  // ***********************
+  // login & signup feature
+  // ***********************
 
   // get token
   getToken(): any {
@@ -40,6 +104,7 @@ export class AuthService {
     return this.authStatusListener.asObservable();
   }
 
+  // works
   // signup
   signup(name: string, email: string, password: string): any {
     this.http.post(BACKEND_URL + '/signup', { name, email, password })
@@ -52,6 +117,7 @@ export class AuthService {
       });
   }
 
+  // works
   // login
   login(email: string, password: string): any {
     this.http.post<{token: string, expiresIn: number, userId: string}>(BACKEND_URL + '/login', { email, password })

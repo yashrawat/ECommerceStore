@@ -29,7 +29,12 @@
         <input type="password" class="form-control" id="confirmPasswordInput" formControlName="confirmPassword" placeholder="Confirm Password">
       </div>
 
-      <button class="btn btn-primary btn-block my-4" type="submit" [disabled]="signupForm.invalid">Signup</button>
+      <button class="btn btn-primary btn-block my-4" type="submit" [disabled]="signupForm.invalid" *ngIf="!isLoading">Signup</button>
+
+      <button class="btn btn-primary btn-block my-4" type="submit" disabled *ngIf="isLoading">
+        <span class="spinner-border spinner-border-sm"></span>
+        Signing In...
+      </button>
 
     </form>
 

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { map } from 'rxjs/operators';
 
+import { environment } from 'src/environments/environment';
 import { ProductService } from '.././utils/product.service';
-import { Order } from '../utils/order.model';
-import { Wishlist } from '../utils/wishlist.model';
+import { User } from '../user/user.model';
 
 const BACKEND_URL = `${environment.apiUrl}/user`;
 
@@ -13,187 +13,103 @@ const BACKEND_URL = `${environment.apiUrl}/user`;
 })
 export class UserService {
 
-  private dummyOrders: Order[] = [
-    {
-      product: {
-        id: 'jkhfddsj0',
-        productName: 'ProductOne',
-        productContent: 'Content of ProductOne',
-        imagePath: '../../assets/images/1.jpg',
-        price: 1500,
-        quantity: null
-      },
-      orderDate: new Date('12/11/2020'),
-      deliveryAddress: 'BTM Layout, Bengaluru, Karnataka, India',
-      paymentMethod: 'UPI'
-    },
-    {
-      product: {
-        id: '2kajrj3jjja',
-        productName: 'ProductTwo',
-        productContent: 'Content of ProductTwo',
-        imagePath: '../../assets/images/2.jpg',
-        price: 12500,
-        quantity: null
-      },
-      orderDate: new Date('12/11/2020'),
-      deliveryAddress: 'BTM Layout, Bengaluru, Karnataka, India',
-      paymentMethod: 'Credit Card'
-    },
-    {
-      product: {
-        id: '33jjkejfd',
-        productName: 'ProductThree',
-        productContent: 'Content of ProductThree',
-        imagePath: '../../assets/images/3.jpg',
-        price: 101500,
-        quantity: null
-      },
-      orderDate: new Date('12/11/2020'),
-      deliveryAddress: 'BTM Layout, Bengaluru, Karnataka, India',
-      paymentMethod: 'Net Banking'
-    },
-    {
-      product: {
-        id: '4sdkfnlkds',
-        productName: 'ProductFour',
-        productContent: 'Content of ProductFour',
-        imagePath: '../../assets/images/4.jpg',
-        price: 800,
-        quantity: null
-      },
-      orderDate: new Date('12/11/2020'),
-      deliveryAddress: 'BTM Layout, Bengaluru, Karnataka, India',
-      paymentMethod: 'UPI'
-    },
-    {
-      product: {
-        id: '6mfnqrnkj',
-        productName: 'ProductSix',
-        productContent: 'Content of ProductSix',
-        imagePath: '../../assets/images/6.jpg',
-        price: 9500,
-        quantity: null
-      },
-      orderDate: new Date('12/11/2020'),
-      deliveryAddress: 'BTM Layout, Bengaluru, Karnataka, India',
-      paymentMethod: 'Debit Card'
-    },
-    {
-      product: {
-        id: '7wqmerbewre',
-        productName: 'ProductSeven',
-        productContent: 'Content of ProductSeven',
-        imagePath: '../../assets/images/7.jpg',
-        price: 11500,
-        quantity: null
-      },
-      orderDate: new Date('12/11/2020'),
-      deliveryAddress: 'BTM Layout, Bengaluru, Karnataka, India',
-      paymentMethod: 'UPI'
-    }
-  ];
-
-  private dummyWishlist: Wishlist[] = [
-    {
-      product: {
-        id: 'jkhfddsj0',
-        productName: 'ProductOne',
-        productContent: 'Content of ProductOne',
-        imagePath: '../../assets/images/1.jpg',
-        price: 1500,
-        quantity: null
-      },
-      userId: '1'
-    },
-    {
-      product: {
-        id: '2kajrj3jjja',
-        productName: 'ProductTwo',
-        productContent: 'Content of ProductTwo',
-        imagePath: '../../assets/images/2.jpg',
-        price: 12500,
-        quantity: null
-      },
-      userId: '2'
-    },
-    {
-      product: {
-        id: '33jjkejfd',
-        productName: 'ProductThree',
-        productContent: 'Content of ProductThree',
-        imagePath: '../../assets/images/3.jpg',
-        price: 101500,
-        quantity: null
-      },
-      userId: '3'
-    },
-    {
-      product: {
-        id: '4sdkfnlkds',
-        productName: 'ProductFour',
-        productContent: 'Content of ProductFour',
-        imagePath: '../../assets/images/4.jpg',
-        price: 800,
-        quantity: null
-      },
-      userId: '4'
-    },
-    {
-      product: {
-        id: '6mfnqrnkj',
-        productName: 'ProductSix',
-        productContent: 'Content of ProductSix',
-        imagePath: '../../assets/images/6.jpg',
-        price: 9500,
-        quantity: null
-      },
-      userId: '5'
-    },
-    {
-      product: {
-        id: '7wqmerbewre',
-        productName: 'ProductSeven',
-        productContent: 'Content of ProductSeven',
-        imagePath: '../../assets/images/7.jpg',
-        price: 11500,
-        quantity: null
-      },
-      userId: '6'
-    }
-  ];
+  private authId: string;
+  private cart;
+  private order;
+  private wishlist;
+  private wishlistProductId = [];
 
   constructor(private productService: ProductService, private http: HttpClient) { }
 
-  getOrders(): any {
-    return this.dummyOrders;
+  // get model
+  getAuthId(): any {
+    return this.authId;
+  }
+
+  getCart(): any {
+    return this.cart;
   }
 
   getWishlist(): any {
-    return this.dummyWishlist;
+    return this.wishlist;
+  }
+
+  getOrder(): any {
+    return this.order;
+  }
+
+  getWishlistProductId(): any {
+    return this.wishlistProductId;
   }
 
   getProductById(productId): any {
     this.productService.getProductById(productId);
   }
 
-  addItemToWishlist(productId): any {
-    const itemExistInWishlist = this.dummyWishlist.find(wishlist => wishlist.product.id === productId);
-    if (itemExistInWishlist) {
-      const productDetails = this.getProductById(productId);
-      // TODO: why productDetails is undefined?
-      console.log(productDetails);
-      const a = this.dummyWishlist.push({
-        product: productDetails,
-        userId: 'xyz'
+  // new code
+  getUserData(): any {
+    this.http.get<{ message: string; userData: User }>(`${BACKEND_URL}/getUserData`)
+      .pipe(
+        map(data => {
+          return {
+            authId: data.userData[0].authId,
+            cart: data.userData[0].cart,
+            wishlist: data.userData[0].wishlist,
+            order: data.userData[0].order
+          };
+        })
+      )
+      .subscribe(responseData => {
+        this.authId = responseData.authId;
+        this.cart = responseData.cart.itemsList;
+        responseData.wishlist.productsList.forEach(wishlistProduct => {
+          if (this.wishlistProductId.includes(wishlistProduct.productId) === false) {
+            this.wishlistProductId.push(wishlistProduct.productId);
+          }
+        });
+        this.order = responseData.order.ordersList;
+        // this.order = responseData.order.ordersList.forEach(orderProduct => console.log(orderProduct));
+        // console.log(`authId => ${responseData.authId}`);
+        // console.log(`cart => ${responseData.cart.itemsList[0].productId}`);
+        // console.log(`wishlist => ${responseData.wishlist.productsList[0].productId}`);
+        // console.log(`order => ${responseData.order.ordersList[0].productId}`);
       });
-      console.log(a);
-      return;
-    }
-    console.log('Product already added to wishlist');
   }
 
-  removeItemFromWishlist(productId): any {
-    this.dummyWishlist = this.dummyWishlist.filter(item => item.product.id !== productId);
+  addUserData(authId: string, cart: any, wishlist: any, order: any): any {
+    const userData: User = {
+      authId,
+      cart,
+      wishlist,
+      order
+    };
+
+    this.http.post<{ message: string; userData: User }>(`${BACKEND_URL}/addUserData`, userData);
   }
+
+  // Completed
+  deleteUserDataById(id: string): any {
+    return this.http.delete(`${BACKEND_URL}/deleteUserDataById/${id}`);
+  }
+
+  // --------------------------------------------------------------------------------------------------
+
+  // addItemToWishlist(productId): any {
+  //   const itemExistInWishlist = this.dummyWishlist.find(wishlist => wishlist.product.id === productId);
+  //   if (itemExistInWishlist) {
+  //     const productDetails = this.getProductById(productId);
+  //     // TODO: why productDetails is undefined?
+  //     console.log(productDetails);
+  //     const a = this.dummyWishlist.push({
+  //       product: productDetails,
+  //       userId: 'xyz'
+  //     });
+  //     console.log(a);
+  //     return;
+  //   }
+  //   console.log('Product already added to wishlist');
+  // }
+  // removeItemFromWishlist(productId): any {
+  //   this.dummyWishlist = this.dummyWishlist.filter(item => item.product.id !== productId);
+  // }
 }

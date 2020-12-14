@@ -14,6 +14,12 @@ const authSchema = mongoose.Schema({
     password: { 
         type: String, 
         required: true 
+    },
+    mobileNumber: {
+        type: String
+    },
+    address: {
+        type: String
     }
 });
 

@@ -1,0 +1,87 @@
+<div class="container my-4">
+
+  <div class="row display-4">Order Confirmation</div>
+
+  <div class="dropdown-divider my-4"></div>
+
+  <div class="jumbotron card row">
+
+    <!-- UserData -->
+    <div class="col mb-4">Hey, <b>{{ userData?.name }}</b> your order has successfully been placed at <b>{{ date | date: 'medium' }}</b></div>
+
+    <!-- Payment method -->
+    <div class="col-8 mb-4">
+        <h5>Payment Method</h5>
+        {{ paymentMethodValue }}
+    </div>
+
+    <div class="col-8 mb-4">
+
+      <!-- Order summary -->
+      <div class="mb-4">
+        <h2>Order Summary</h2>
+
+      <!-- Ordered Items List -->
+      <div class="table-responsive container-fluid my-4" *ngIf="itemsList?.length > 0">
+
+        <table class="table">
+
+          <thead>
+            <tr>
+              <th scope="col" class="h4">Image</th>
+              <th scope="col" class="h4">Product Content</th>
+              <th scope="col" class="h4">Price</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let item of itemsList">
+
+              <td>
+                <img [src]="item.imagePath">
+              </td>
+
+              <td>{{ item.productName }}</td>
+
+              <td>{{ item.price | currency: 'INR' : symbol: '3.0' }}</td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+        <div class="dropdown-divider mb-4" *ngIf="itemsList.length > 0"></div>
+
+        <!-- Grand Total -->
+        <div class="container mt-4 text-center" *ngIf="itemsList.length > 0">
+
+          <div class="col-4">
+
+            <p class="h4">
+              <strong>Grand Total</strong>
+            </p>
+
+            <br>
+
+            <p>{{ calculateTotalPrice() | currency: 'INR' : symbol: '0.0' }}</p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      </div>
+
+      <!-- Order History Link -->
+      <div class="mt-4">
+        <a class="nav-item" routerLink="/user/order-history">View Order History</a>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

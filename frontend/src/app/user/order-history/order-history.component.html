@@ -1,8 +1,22 @@
+<!-- Empty orders list -->
+<div class="container my-4 text-center" *ngIf="orders?.length < 1">
+
+  <div class="alert alert-primary" role="alert">
+    You have not ordered anything yet. Order now!
+
+    <a routerLink="/product/products-list">
+      View Product List
+    </a>
+  </div>
+
+</div>
+
+<!-- Order history contains orders -->
 <div class="container">
 
   <div class="row">
 
-    <div class="col">
+    <div class="col" *ngIf="orders?.length > 0">
 
       <div class="display-4 my-4">Order History</div>
 

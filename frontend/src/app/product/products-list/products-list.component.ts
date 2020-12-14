@@ -14,10 +14,14 @@ export class ProductsListComponent implements OnInit {
 
   searchForm: FormGroup;
   productData;
-  // filteredData;
+  filteredData;
   productDataSubs: Subscription;
 
-  constructor(private productService: ProductService, private fb: FormBuilder, private cartService: CartService) { }
+  constructor(
+    private productService: ProductService,
+    private fb: FormBuilder,
+    private cartService: CartService
+  ) { }
 
   filterSearch(): any {
     const searchTextResult = this.searchForm.get('searchText').value;
@@ -33,8 +37,6 @@ export class ProductsListComponent implements OnInit {
       searchText: ['', [Validators.required]]
     });
     this.productData = this.productService.getProductData();
-    // this.filteredData = this.productService.filterSearchResults();
-
     this.productDataSubs = this.productService.getProductDataUpdated()
       .subscribe(productStatus => {
         this.productData = productStatus.products;

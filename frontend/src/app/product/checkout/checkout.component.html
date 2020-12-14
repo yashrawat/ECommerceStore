@@ -11,11 +11,11 @@
 
     <div class="mx-4 card-body row">
 
-      <p class="col-8 mb-4">User Name</p>
+      <p class="col-8 mb-4">{{ userData?.name }}</p>
 
-      <p class="col-8 mb-4">Mobile Number</p>
+      <p class="col-8 mb-4">{{ userData?.mobileNumber }}</p>
 
-      <p class="col-8">Address</p>
+      <p class="col-8">{{ userData?.address }}</p>
 
     </div>
 
@@ -32,18 +32,11 @@
       <div class="row">
 
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-          <label class="btn btn-outline-primary m-4">
-            <input type="radio" name="options" id="option1" autocomplete="off"> UPI
+
+          <label class="btn btn-outline-primary m-4" *ngFor="let paymentMethod of paymentMethods">
+            <input type="radio" name="options" (change)="radioChangeHandler($event)" value="{{paymentMethod}}" autocomplete="off"> {{ paymentMethod }}
           </label>
-          <label class="btn btn-outline-primary m-4">
-            <input type="radio" name="options" id="option2" autocomplete="off"> Credit Card
-          </label>
-          <label class="btn btn-outline-primary m-4">
-            <input type="radio" name="options" id="option3" autocomplete="off"> Debit Card
-          </label>
-          <label class="btn btn-outline-primary m-4">
-            <input type="radio" name="options" id="option4" autocomplete="off"> Net Banking
-          </label>
+
         </div>
 
       </div>
@@ -59,17 +52,96 @@
 
     <div class="mx-4 card-body">
 
-      <!-- Cart Items List -->
-      <div>
+      <!-- Empty Cart -->
+      <div class="container my-4 text-center" *ngIf="itemsList?.length < 1">
 
-        Cart Items List
+        <div class="alert alert-primary" role="alert">
+          No products added to cart
+        </div>
+
+      </div>
+
+      <!-- Cart Items List -->
+      <div class="table-responsive container-fluid m-4" *ngIf="itemsList?.length > 0">
+
+        <table class="table table-hover">
+
+          <thead>
+            <tr>
+              <th scope="col" class="h4">Image</th>
+              <th scope="col" class="h4">Product Content</th>
+              <th scope="col" class="h4">Price</th>
+              <th scope="col" class="h4">Quantity</th>
+              <th scope="col" class="h4">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let item of itemsList">
+
+              <td>
+                <img [src]="item.imagePath">
+              </td>
+
+              <td>{{ item.productName }}</td>
+
+              <td>{{ item.price | currency: 'INR' : symbol: '3.0' }}</td>
+
+              <td>
+                {{ item.quantity }}
+                <button type="button" class="btn" (click)="incrementQuantityButton(item._id)">
+                  <span class="material-icons">
+                    add
+                  </span>
+                </button>
+
+                <button type="button" class="btn" (click)="decrementQuantityButton(item._id)">
+                  <span class="material-icons">
+                    remove
+                  </span>
+                </button>
+              </td>
+
+              <td>
+                <button type="button" class="btn" (click)="deleteCartItem(item._id)">
+                  <span class="material-icons">
+                    delete
+                  </span>
+                </button>
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+        <div class="dropdown-divider mb-4" *ngIf="itemsList.length > 0"></div>
+
+        <!-- Grand Total -->
+        <div class="container mt-4 text-center" *ngIf="itemsList.length > 0">
+
+          <div class="col-4">
+
+            <p class="h4">
+              <strong>Grand Total</strong>
+            </p>
+
+            <br>
+
+            <p>{{ calculateTotalPrice() | currency: 'INR' : symbol: '0.0' }}</p>
+
+          </div>
+
+        </div>
 
       </div>
 
     </div>
 
     <div class="mx-4 card-footer">
-      <button type="button" class="btn btn-primary btn-block">Confirm Order</button>
+      <button type="button" class="btn btn-primary btn-block" (click)="onConfirmOrder()">Confirm Order</button>
     </div>
 
   </div>

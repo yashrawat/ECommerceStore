@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CartService } from 'src/app/utils/cart.service';
 
 import { ProductService } from '../../utils/product.service';
 
@@ -13,18 +14,24 @@ export class ProductSearchResultComponent implements OnInit {
   searchForm1: FormGroup;
   filteredData;
 
-  constructor(private productService: ProductService, private fb: FormBuilder) { }
+  constructor(private productService: ProductService, private fb: FormBuilder, private cartService: CartService) { }
 
   filterSearch1(): void {
     const searchTextResult = this.searchForm1.get('searchText').value;
-    this.filteredData = this.productService.filterSearchResults(searchTextResult);
+    this.productService.filterSearchResults(searchTextResult);
+    this.filteredData = this.productService.filteredData;
+  }
+
+  addToCart(data): any {
+    this.cartService.addToCart(data);
   }
 
   ngOnInit(): void {
     this.searchForm1 = this.fb.group({
       searchText: ['', [Validators.required]]
     });
-    // this.filterSearch1();
+    this.filteredData = this.productService.filteredData;
+    console.log(this.filteredData);
   }
 
 }

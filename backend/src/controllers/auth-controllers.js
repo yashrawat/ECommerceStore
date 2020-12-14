@@ -57,3 +57,50 @@ exports.login = (req, res, next) => {
             });
         });
 };
+
+exports.getUserData = (req, res, next) => {
+    Auth.findById({ _id: req.params.id })
+        .then(fetchedUserData => {
+            if (fetchedUserData) {
+                res.status(200).json({
+                    message: `User data fetched successfully`,
+                    userData: fetchedUserData
+                });
+            } else {
+                res.status(404).json({
+                    message: `Error! User data not found!`
+                });
+            }
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: `Fetching user data failed => ${error}`
+            });
+        });
+};
+
+exports.saveUserData = (req, res, next) => {
+    Auth.findById({ _id: req.params.id }, (error, userDataLoaded) => {
+        if (!userDataLoaded) {
+            return next(new Error(`Could not load document ${error}`));
+        } else {
+            userDataLoaded.name = req.body.name;
+            userDataLoaded.email = req.body.email;
+            userDataLoaded.mobileNumber = req.body.mobileNumber;
+            userDataLoaded.address = req.body.address;
+
+            userDataLoaded.save()
+                .then(updatedUserData => {
+                    res.status(200).json({
+                        message: `User data updated successfully`,
+                        userData: updatedUserData
+                    })
+                })
+                .catch(error => {
+                    res.status(500).json({
+                        message: `User data could not be updated => ${error}`
+                    })
+                });
+        }
+    });
+};

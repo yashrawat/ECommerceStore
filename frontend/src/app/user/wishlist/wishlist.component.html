@@ -1,5 +1,5 @@
 <!-- Wishlist empty -->
-<div class="container my-4 text-center" *ngIf="wishlist.length < 1">
+<div class="container my-4 text-center" *ngIf="productData?.length < 1">
 
   <div class="alert alert-primary" role="alert">
     No products added to wishlist
@@ -8,7 +8,7 @@
 </div>
 
 <!-- Wishlist not empty -->
-<div class="container" *ngIf="wishlist.length > 0">
+<div class="container" *ngIf="productData?.length > 0">
 
   <div class="row">
 
@@ -19,7 +19,7 @@
       <div class="dropdown-divider my-4"></div>
 
       <!-- wishlist card -->
-      <div class="card mb-4" *ngFor="let wishlistItem of wishlist">
+      <div class="card mb-4" *ngFor="let wishlistItem of productData">
         <div class="card-body">
 
           <div class="row">

@@ -23,17 +23,17 @@
           </p>
         </div>
         <div class="card-footer">
-          <button type="button" class="btn btn-outline-primary btn-block" [routerLink]="['/product/product-details', data.id]">View Details</button>
+          <button type="button" class="btn btn-outline-primary btn-block" [routerLink]="['/product/product-details', data._id]">View Details</button>
           <button type="button" class="btn btn-outline-primary btn-block" (click)="addToCart(data)">Add To Cart</button>
         </div>
       </div>
     </div>
 
-    <!-- <div *ngIf="filteredData.length < 1">
+    <div *ngIf="filteredData.length < 1">
       <p class="text-center">
         No products found
       </p>
-    </div> -->
+    </div>
 
   </div>
 
