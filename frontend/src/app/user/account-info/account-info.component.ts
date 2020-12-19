@@ -45,6 +45,13 @@ export class AccountInfoComponent implements OnInit, OnDestroy {
     this.userInfoSubs = this.authService.getUserDataUpdated()
       .subscribe(userData => {
         this.userInfo = userData;
+
+        this.editAccountInfoDetails = this.fb.group({
+          name: [this.userInfo?.name, [Validators.required, Validators.minLength(3)]],
+          email: [this.userInfo?.email, [Validators.required, Validators.email]],
+          mobileNumber: [this.userInfo?.mobileNumber, [Validators.required]],
+          address: [this.userInfo?.address, [Validators.required]]
+        });
       });
 
     this.editAccountInfoDetails = this.fb.group({

@@ -20,7 +20,23 @@ export class CartService {
     });
   }
 
+  // addToCart(product): any {
+  //   let itemExistInCart;
+  //   if (product.productId) {
+  //     itemExistInCart = this.itemsService.find(({_id}) => _id === product.productId);
+  //   } else {
+  //     itemExistInCart = this.itemsService.find(({_id}) => _id === product?._id);
+  //   }
+  //   if (!itemExistInCart) {
+  //     this.itemsService.push({...product, quantity: 1});
+  //     this.openSnackbar('Added to cart', 'Added');
+  //     return;
+  //   }
+  //   itemExistInCart.quantity += 1;
+  //   this.openSnackbar('Already in cart', 'Quantity Incremented');
+  // }
   addToCart(product): any {
+    console.log(product);
     const itemExistInCart = this.itemsService.find(({_id}) => _id === product._id);
     if (!itemExistInCart) {
       this.itemsService.push({...product, quantity: 1});
@@ -31,17 +47,23 @@ export class CartService {
     this.openSnackbar('Already in cart', 'Quantity Incremented');
   }
 
+  // TODO: does not work for wishlist added product because of id mapping issues
+  // (_id ---- productList, productDetails Product & productId ---- wishlist product)
   deleteCartItem(pid): any {
     this.itemsService = this.itemsService.filter(item => item._id !== pid);
     this.openSnackbar('Deleted from cart', 'Deleted');
   }
 
+  // TODO: does not work for wishlist added product because of id mapping issues
+  // (_id ---- productList, productDetails Product & productId ---- wishlist product)
   quantityIncrement(pid): any {
     const item = this.itemsService.find(({_id}) => _id === pid);
     item.quantity += 1;
     this.openSnackbar('Quantity Incremented', 'Incremented');
   }
 
+  // TODO: does not work for wishlist added product because of id mapping issues
+  // (_id ---- productList, productDetails Product & productId ---- wishlist product)
   quantityDecrement(pid): any {
     const item = this.itemsService.find(({_id}) => _id === pid);
     if (item.quantity <= 1) {

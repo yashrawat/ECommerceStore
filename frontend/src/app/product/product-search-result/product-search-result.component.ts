@@ -31,7 +31,6 @@ export class ProductSearchResultComponent implements OnInit {
       searchText: ['', [Validators.required]]
     });
     this.filteredData = this.productService.filteredData;
-    console.log(this.filteredData);
   }
 
 }

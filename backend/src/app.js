@@ -5,7 +5,7 @@ const path = require('path');
 
 const authRoutes = require('./routes/auth-routes');
 const productRoutes = require('./routes/product-routes');
-const userRoutes = require('./routes/user-routes');
+const userEssentialsRoutes = require('./routes/userEssentials-routes');
 
 const app = express();
 
@@ -39,6 +39,6 @@ app.use((req, res, next) => {
 // routes
 app.use('/api/auth', authRoutes);
 app.use('/api/product', productRoutes);
-app.use('/api/user', userRoutes);
+app.use('/api/userEssentials', userEssentialsRoutes);
 
 // module.exports = app;

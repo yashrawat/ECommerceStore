@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { ProductService } from '../../utils/product.service';
   templateUrl: './products-list.component.html',
   styleUrls: ['./products-list.component.css']
 })
-export class ProductsListComponent implements OnInit {
+export class ProductsListComponent implements OnInit, OnDestroy {
 
   searchForm: FormGroup;
   productData;
@@ -41,6 +41,10 @@ export class ProductsListComponent implements OnInit {
       .subscribe(productStatus => {
         this.productData = productStatus.products;
       });
+  }
+
+  ngOnDestroy(): void {
+    this.productDataSubs.unsubscribe();
   }
 
 }

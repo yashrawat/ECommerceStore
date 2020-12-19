@@ -43,6 +43,7 @@ export class ProductService {
   getProductData(): any {
     this.http.get<{ message: string; products: Product[]; }>(`${BACKEND_URL}/allProducts`)
       .subscribe((fetchedProductsData) => {
+        // this.productData = [];
         this.productData = fetchedProductsData.products;
         this.productDataUpdated.next({ products: [...this.productData] });
       });
@@ -53,6 +54,7 @@ export class ProductService {
   getProductById(productId): any {
     this.http.get<{ message: string; products: Product[]; }>(`${BACKEND_URL}/productById/${productId}`)
       .subscribe((fetchedProductData) => {
+        // this.productData = [];
         this.productData = fetchedProductData.products;
         this.productDataUpdated.next({ products: this.productData });
       });

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
+import { UserService } from './user.service';
 
 const BACKEND_URL = `${environment.apiUrl}/auth`;
 
@@ -22,7 +23,12 @@ export class AuthService {
   private userDataUpdated = new Subject();
   private paymentMethodValue;
 
-  constructor(private http: HttpClient, private router: Router, private snackbar: MatSnackBar) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private snackbar: MatSnackBar,
+    private userService: UserService
+  ) { }
 
   openSnackbar(message, action): any {
     this.snackbar.open(message, action, {
@@ -78,6 +84,7 @@ export class AuthService {
   confirmOrder(paymentMethod): any {
     this.paymentMethodValue = paymentMethod;
     // TODO: add ordered items in order-history component
+    // this.userService.updateExistingUserEssentialsData(this.userId, paymentMethod);
   }
 
   // ***********************
