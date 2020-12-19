@@ -11,7 +11,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Connecting to mongoDB, ECommerceStore = database name AND listening to PORT 3000
-mongoose.connect('mongodb://localhost:27017/ECommerceStore', { useNewUrlParser: true, useUnifiedTopology: true })
+// mongoose.connect('mongodb://localhost:27017/ECommerceStore', { useNewUrlParser: true, useUnifiedTopology: true })
+// mongodb atlas
+mongoose.connect(`mongodb+srv://${process.env.username}:${process.env.password}@ecommercestore.l0v5w.mongodb.net/ECommerceStore?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         app.listen(PORT);
         console.log('Connected to database');
