@@ -8,11 +8,12 @@ const productRoutes = require('./routes/product-routes');
 const userEssentialsRoutes = require('./routes/userEssentials-routes');
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Connecting to mongoDB, ecomapp1 = database name AND listening to PORT 3000
+// Connecting to mongoDB, ECommerceStore = database name AND listening to PORT 3000
 mongoose.connect('mongodb://localhost:27017/ECommerceStore', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
-        app.listen(3000);
+        app.listen(PORT);
         console.log('Connected to database');
     })
     .catch(err => {
